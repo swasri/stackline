@@ -1,24 +1,46 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import  { getSalesData } from './dataAccess.js';
+import { Graph } from './graph';
+import { ProductInfo } from './productInfo';
 
 function App() {
+
+  const data = React.useMemo(
+    () => [
+      {
+        label: 'Sales',
+        data: getSalesData()
+      }
+    ],
+    []
+  );
+
+  const axes = React.useMemo(
+    () => [
+      { primary: true, type: 'linear', position: 'bottom' },
+      { type: 'linear', position: 'left' }
+    ],
+    []
+  );
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+     <header>
+       <h2>Stackline</h2>
+     </header>
+
+     <section>
+      <nav>
+       <ProductInfo/>
+      </nav>
+
+      <article>
+        <h1>Retail Sales</h1>
+        <Graph data={data} axes={axes}/>
+      </article>
+     </section>
+
     </div>
   );
 }
